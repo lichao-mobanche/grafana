@@ -1,0 +1,31 @@
+sudo: true
+language: go
+go: 1.8.x
+before_install:
+- curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash
+- source ~/.bashrc
+- nvm install stable
+- npm install -g yarn
+- yarn install --pure-lockfile
+- npm install -g grunt-cli
+before_script:
+  sudo apt-get update
+script:
+- mv $GOPATH/src/github.com/laincloud $GOPATH/src/github.com/grafana
+- make
+- sudo apt-get install rpm
+- gem install fpm
+- go run build.go package
+before_deploy:
+- travis_tag=${TRAVIS_TAG:1}
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: $GITHUB_TOKEN
+  file:
+    - dist/grafana-${travis_tag}-1.x86_64.rpm
+    - dist/grafana_${travis_tag}_amd64.deb
+  on:
+    tags: true
+    all_branches: true

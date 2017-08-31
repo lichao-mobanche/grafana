@@ -212,7 +212,7 @@ func (a *ldapAuther) isMemberofGroup(GroupDN string,Username string) (bool){
 			DerefAliases: ldap.NeverDerefAliases,
 			Filter: strings.Replace(a.server.SearchFilter, "%s", ldap.EscapeFilter(Username), -1),
 		}
-		searchResult, err ：= a.conn.Search(&searchReq)
+		searchResult, err := a.conn.Search(&searchReq)
 	if len(searchResult.Entries) == 0 || err != nil {
 		return false
 	}

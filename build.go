@@ -38,7 +38,7 @@ var (
 	race                  bool
 	phjsToRelease         string
 	workingDir            string
-	includeBuildNumber    bool     = true
+	includeBuildNumber    bool     = false
 	buildNumber           int      = 0
 	binaries              []string = []string{"grafana-server", "grafana-cli"}
 )
