@@ -177,14 +177,14 @@ func (a *ldapAuther) GetGrafanaUserFor(ldapUser *LdapUserInfo) (*m.User, error) 
 	// otherwise a single group must match
 	access := len(a.server.LdapGroups) == 0
 	for _, ldapGroup := range a.server.LdapGroups {
-		if ldapUser.isMemberOf(ldapGroup.GroupDN) {
+		if a.isMemberofGroup(ldapGroup.GroupDN,ldapUser.Username){
 			access = true
 			break
 		}
 	}
 
 	if !access {
-		a.log.Info("Ldap Auth: user does not belong in any of the specified ldap groups", "username", ldapUser.Username, "groups", ldapUser.MemberOf)
+		a.log.Info("Ldap Auth: user does not belong in any of the specified ldap groups", "username", ldapUser.Username)
 		return nil, ErrInvalidCredentials
 	}
 
@@ -204,6 +204,21 @@ func (a *ldapAuther) GetGrafanaUserFor(ldapUser *LdapUserInfo) (*m.User, error) 
 	return userQuery.Result, nil
 
 }
+
+func (a *ldapAuther) isMemberofGroup(GroupDN string,Username string) (bool){
+		searchReq := ldap.SearchRequest{
+			BaseDN:       GroupDN,
+			Scope:        ldap.ScopeWholeSubtree,
+			DerefAliases: ldap.NeverDerefAliases,
+			Filter: strings.Replace(a.server.SearchFilter, "%s", ldap.EscapeFilter(Username), -1),
+		}
+		searchResult, err ：= a.conn.Search(&searchReq)
+	if len(searchResult.Entries) == 0 || err != nil {
+		return false
+	}
+	return true
+}
+
 func (a *ldapAuther) createGrafanaUser(ldapUser *LdapUserInfo) (*m.User, error) {
 	cmd := m.CreateUserCommand{
 		Login: ldapUser.Username,
@@ -255,8 +270,7 @@ func (a *ldapAuther) SyncOrgRoles(user *m.User, ldapUser *LdapUserInfo) error {
 			if org.OrgId != group.OrgId {
 				continue
 			}
-
-			if ldapUser.isMemberOf(group.GroupDN) {
+			if a.isMemberofGroup(group.GroupDN,ldapUser.Username){
 				match = true
 				if org.Role != group.OrgRole {
 					// update role
@@ -281,7 +295,7 @@ func (a *ldapAuther) SyncOrgRoles(user *m.User, ldapUser *LdapUserInfo) error {
 
 	// add missing org roles
 	for _, group := range a.server.LdapGroups {
-		if !ldapUser.isMemberOf(group.GroupDN) {
+		if !a.isMemberofGroup(group.GroupDN,ldapUser.Username) {
 			continue
 		}
 
@@ -373,7 +387,6 @@ func (a *ldapAuther) searchForUser(username string) (*LdapUserInfo, error) {
 				a.server.Attr.Surname,
 				a.server.Attr.Email,
 				a.server.Attr.Name,
-				a.server.Attr.MemberOf,
 			},
 			Filter: strings.Replace(a.server.SearchFilter, "%s", ldap.EscapeFilter(username), -1),
 		}
@@ -396,54 +409,12 @@ func (a *ldapAuther) searchForUser(username string) (*LdapUserInfo, error) {
 		return nil, errors.New("Ldap search matched more than one entry, please review your filter setting")
 	}
 
-	var memberOf []string
-	if a.server.GroupSearchFilter == "" {
-		memberOf = getLdapAttrArray(a.server.Attr.MemberOf, searchResult)
-	} else {
-		// If we are using a POSIX LDAP schema it won't support memberOf, so we manually search the groups
-		var groupSearchResult *ldap.SearchResult
-		for _, groupSearchBase := range a.server.GroupSearchBaseDNs {
-			var filter_replace string
-			filter_replace = getLdapAttr(a.server.GroupSearchFilterUserAttribute, searchResult)
-			if a.server.GroupSearchFilterUserAttribute == "" {
-				filter_replace = getLdapAttr(a.server.Attr.Username, searchResult)
-			}
-			filter := strings.Replace(a.server.GroupSearchFilter, "%s", ldap.EscapeFilter(filter_replace), -1)
-
-			a.log.Info("Searching for user's groups", "filter", filter)
-
-			groupSearchReq := ldap.SearchRequest{
-				BaseDN:       groupSearchBase,
-				Scope:        ldap.ScopeWholeSubtree,
-				DerefAliases: ldap.NeverDerefAliases,
-				Attributes: []string{
-					// Here MemberOf would be the thing that identifies the group, which is normally 'cn'
-					a.server.Attr.MemberOf,
-				},
-				Filter: filter,
-			}
-
-			groupSearchResult, err = a.conn.Search(&groupSearchReq)
-			if err != nil {
-				return nil, err
-			}
-
-			if len(groupSearchResult.Entries) > 0 {
-				for i := range groupSearchResult.Entries {
-					memberOf = append(memberOf, getLdapAttrN(a.server.Attr.MemberOf, groupSearchResult, i))
-				}
-				break
-			}
-		}
-	}
-
 	return &LdapUserInfo{
 		DN:        searchResult.Entries[0].DN,
 		LastName:  getLdapAttr(a.server.Attr.Surname, searchResult),
 		FirstName: getLdapAttr(a.server.Attr.Name, searchResult),
 		Username:  getLdapAttr(a.server.Attr.Username, searchResult),
 		Email:     getLdapAttr(a.server.Attr.Email, searchResult),
-		MemberOf:  memberOf,
 	}, nil
 }
 
