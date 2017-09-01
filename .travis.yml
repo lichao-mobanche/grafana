@@ -21,9 +21,10 @@ after_script:
 deploy:
   provider: releases
   api_key:
-    secure: lHbLx17GDBuzmkKR9QzNWFzdl/VCEBZeFaR3/ywSyhx+9HeKIymzggBe1JoDWwHYCANRqxxzmfBOhP4ir5TgxWzEK7oIt8ybb9j4h3Mc5yxLU9Hn7P4A5ss0SfCViDDH0lKEbdxXcWSNbqD0q4qIe3Q5TcPDlWsajklOpJMdrq2t/jloSj+eezRJ5RAoNG9qOqQOyLgxoGdtV0ptUnF6og36xMG+AicrUJ2RXpbgAzY3bnkg6AMt9lbXEehsPsq8BuUuol8ce/kpVpAsVy0RhP5tWxXhrqO7RIYWn5aQSgOvg9/a+CSxId3X7sMvVwL2Sofwq4v1BERV8tan/RqmmU6rxmwAN+oV9jgYMSUXVQZMEBr4UfeuaqzMsjZMIZoqKttlRze78BWKhjxQnXVID1u+tL+nuO0nOBjBW8VhZOm+5bbz9Z4ROKB9pqJdarZ6uDsC5RsaWqsIyzYzrq3r1iHn3J78HGDKFuOlvlhzINrECFEl9mRXi7LbW9Mf1aHx1VPjVUTP4FMoSMbMneodN3YK+Aw/XuB2TZHSZzXwMck3TP9zKasXoetcjPA7ZOfRxt5d3fd1VcsnjQMuiZ0QXiulc/Vbj/ERp3cA1acZWPrZZJkypozu+hrMVz4ffJd+yrQalqr+fTPyeT3DbTs7f2BpxPsolE9iDW5nZalkJCE=
+    secure: 5054ad95644c9dfb7abdd005a5af4e260b2b2e64
   file:
-  - dist/*
+  - dist/grafana-4.4.3.x86_64.rpm
+  - dist/grafana_4.4.3_amd64.deb
   skip_cleanup: true
   on:
     tags: true
