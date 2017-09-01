@@ -24,4 +24,4 @@ deploy:
   - dist/grafana-4.4.3-1.x86_64.rpm
   - dist/grafana_4.4.3_amd64.deb
   on:
-    repo: laincloud/grafana
+    tags: true
