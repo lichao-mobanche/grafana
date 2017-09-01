@@ -8,7 +8,6 @@ before_install:
 - npm install -g yarn
 - yarn install --pure-lockfile
 - npm install -g grunt-cli
-
 script:
 - mv $GOPATH/src/github.com/lichao-mobanche $GOPATH/src/github.com/grafana
 - make
