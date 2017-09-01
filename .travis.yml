@@ -20,7 +20,7 @@ deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: w3Bvyf/aAATvwynQpEiTZHpNZE2PJHquFHzgwUVH2/sTpmZJ95JBPGpvGzcGo+ndN1R8YYbYinX8BhrFVimKn9qg2OYbfGx6bsiSkfoFq5o3So2eUbzX2O5Ieby0n7FU3f7egbeoBtSHvE4Cg9wt1BkuH/6Pw7OrbSm0EYt7w2pbmAO7kZZD5j2OsWmkBhgyptKfoGApc38p4dcfVs7XcY8s9Hs6h188ZcolzddKl3KRVU+0OcQ5Vxob3qZK4AYdtOl7Wo0cgq1VYRYo+eJXDTwVVeYJJXLhNXBrqrtMCKpclz98ZK2VzBtoJo/g6HV1C1EmNeT19ZuLPH54ns+x3d2LuOUkn83c6dg/U1g7qLzm4xYZdRKCUw2dwOltfKyUhGlZ7rCB2qpey8Rn0XO1JPrkzj1XnwLFXRWxAaK/vEmC4xt4WKIfL9Dq562hQgfEqpqBAATpTJ0sJVRYWx1T+s7jzog5TeNHvRLR/9DoJDBxphixFuxnKhp0CeT7sbc+CL3H6ozdSzpDCvOJOCGWVpH/SMvmVzAETckHVrExohCyfpIhCpDpeeAl9q0gviBSVLG08R1NE/j2HUcy6UUtCPasccus7o5pomNzLZ66wCZo+xDW5+O44TTR8/bxXbxOcnmJNiaIcovEHd4LKaqLRWfMeF9uAYHxRGY++Ky8dWg=
+  source: 0591e9d41ea802cf9f76eeb350fdd0bb92df9a99
   file: 
   - dist/grafana-4.4.3-1.x86_64.rpm
   - dist/grafana_4.4.3_amd64.deb
