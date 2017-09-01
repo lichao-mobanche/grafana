@@ -11,20 +11,17 @@ before_install:
 script:
 - mv $GOPATH/src/github.com/lichao-mobanche $GOPATH/src/github.com/grafana
 - make
-
 after_script:
 - apt-get install gnu-tar
 - apt-get install rpm
 - gem install fpm
 - go run build.go package
-
 deploy:
   provider: releases
   api_key:
-    secure: 5054ad95644c9dfb7abdd005a5af4e260b2b2e64
-  file:
+    secure: ehXWwheIegX09r9NZagbgJQV6YV1+ofxM5SEzKhAAyR3KhP+ww1nc9NwHU2fhcJWR8CDAXgIyfhCq+eyvqrUxX1ezm7n2/DZu5JcASty7Xcz3vXS2VsLdaw0N+ZUeZB94pdJr5dC/GfCL20FxGCjacIRc2DUSH5sAeBULt5yMaWzmL3c/q74ZalS1jXRAlykbe9MWEgrO11w+Pg6b3knsy6gGNV8/9qbtER62cMOp0PLBawQhH4qNcrnqVW30jlu9jKX0b9WtRP/SsDvsJG2piO3YRctaSjalOB9U93P9ArRa+rTmKitOTFhlL8mUBA3xd3pk+AKVQRGEwGgBezLx++vQb8qKpnUamI8CDWsSf+Bftht9n3ZG5X3nn508bz66/8BEXKFEAeH0PoLJ0fLBOdytSI3GteZNZlkwqs3KzUeVk/TDhTKHBog3AIm8kRuBFCXdiLrSPMFvBgmxrz3x8iYK+Og/rKUEKj9QCSigCGUJspsHINe4AmOKOUaDA32T8U5VMc9lq/87oHglj0aqyAOvh6siDGlxAjxNzpo4O5KbUci2Yjms09iPPCAy7KDCCGeJ0L2Jyptf6zL1N9pUdy8wu9ZkISbAtaeZNhHaEDPVqKUCXUOYPwaLanRfjdGecyqDRZ8txaAh2lOHgnjyqIA2qfsk9zBvVZvHbfOgks=
+  file: 
   - dist/grafana-4.4.3-1.x86_64.rpm
   - dist/grafana_4.4.3_amd64.deb
-  skip_cleanup: true
   on:
-    tags: true
+    repo: laincloud/grafana
