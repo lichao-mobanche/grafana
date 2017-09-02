@@ -27,4 +27,4 @@ deploy:
 on:
     tags: true
     repo: lichao-mobanche/grafana
-    all_branches: true
+    branche: releases
