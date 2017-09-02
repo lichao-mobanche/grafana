@@ -22,8 +22,8 @@ deploy:
   api_key:
     secure: qHUGs4qgKc5Qxw5WCs2V40Pf7bOgWMDmkLB+6NxkNkiy9izd37sOXgiOvCzkdparScWmedmlsGDr/RNZt5uszmsS26OyR+1vDrYS6w3hqWVEkATZJFVwaH1zkWLthBGNfiZXCcoAVGyJ9ZKvVALYj67CT3ygSjeGXeObsTHen+GgZZ9xZTU5gHsORLYTFxeL/jwYjycZUE6HJjPG5bIrvkImPnUfJN+y4F5ftAVWXiEV+kn8O+HIzzRsALzk3955ReOsOaQPI5JdJEnG88rICbc51te9qHV94rPPD+N2hsqPQfe0JUaUhCVj/EkzF8OotHPZ2n60N7E72yi5PsPJFWNoHnoG0cyOtJShfw+Iq5GG66P6EJIo0DXzUYobly7BvE2Np6y9x7FftdDdaeDAloiizeZWh5cB6YY4k+hF9zdKPWY2jcXHX6mjov77U8h8uBZYi3OTyv4as4FYCFKCvVA1h1SdRRRTjo96anPvXzN+v9KHE72SS//vMywwBIC5AEpvlGJTj2ypfGdSdnwJ8BHxzUWoxwOG8TNqYb0uzYFoTy6fb0rBF99LBsxvgz8YjKN0mFb4YDcJ7gANFd4ghFV2+wZAYX6+JVDjywMDlamQtWqDBlrI1AObpDfV4eID9caDEwVM1P5jrYkaHoIcGP9Jivl1Z+zqHSsvzFXiVMQ=
   file: 
-    - dist/grafana-4.4.3-1.x86_64.rpm
-    - dist/grafana_4.4.3_amd64.deb
+    - dist/grafana-4.4.4-1.x86_64.rpm
+    - dist/grafana_4.4.4_amd64.deb
   on:
     tags: true
     all_branches: true
